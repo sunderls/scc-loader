@@ -1,0 +1,29 @@
+{
+  "name": "scc-loader",
+  "version": "0.0.1",
+  "description": "a webpack loader for scc",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "precommit": "pretty-quick --staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunderls/scc-loader.git"
+  },
+  "author": "sunderls",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sunderls/scc-loader/issues"
+  },
+  "homepage": "https://github.com/sunderls/scc-loader#readme",
+  "dependencies": {
+    "postcss": "^6.0.23"
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "jest": "^23.2.0",
+    "prettier": "^1.13.6",
+    "pretty-quick": "^1.6.0"
+  }
+}
