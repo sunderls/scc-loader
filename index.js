@@ -10,10 +10,16 @@ module.exports = function loader(source) {
 
     let component = null;
     rule.walkDecls(decl => {
+      // special prop: component
       if (decl.prop === 'component') {
         component = decl.value;
       } else {
-        decls.push(`${decl.prop}:${decl.value};`);
+        // if value is function
+        if (/^\(.*\)$/.test(decl.value)) {
+          decls.push(`${decl.prop}:\${props => ${decl.value}}`)
+        } else {
+          decls.push(`${decl.prop}:${decl.value};`);
+        }
         decl.remove();
       }
     });
@@ -24,7 +30,7 @@ module.exports = function loader(source) {
   return `
     import styled from 'styled-components';
     export default {
-      ${result.join('')}
+      ${result.join(',')}
     }
   `;
 };

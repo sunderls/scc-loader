@@ -6,8 +6,16 @@ import styled from 'styled-components';
 import ReactDOMServer from 'react-dom/server';
 import React from 'react';
 
-const expectSameComponents = (A, B) => {
-  expect(A.componentStyle.rules).toEqual(B.componentStyle.rules);
+const expectSameComponents = (A, B, props) => {
+  const rulesA = A.componentStyle.rules;
+  const rulesB = B.componentStyle.rules;
+  for (let i = 0, total = rulesA.length; i < total; i++) {
+    if (typeof rulesA[i] === 'string') {
+      expect(rulesA[i]).toEqual(rulesB[i]);
+    } else if (typeof rulesA[i] === 'function') {
+      expect(rulesA[i](props)).toEqual(rulesB[i](props));
+    }
+  }
 };
 
 const getModuleFromString = str => {
@@ -37,5 +45,44 @@ test('transofrm single component', () => {
       }
     `)
     ).Title
+  );
+});
+
+
+test('transofrm multiple components and function as value', () => {
+  const m = getModuleFromString(
+    sccLoader(`
+    Title {
+      component: h1;
+      font-size: 1.5em;
+      text-align: center;
+    }
+    Wrapper {
+      component: section;
+      padding: 4em;
+      background: papayawhip;
+      font-size: (props.size === 'large' ? '14px': '12px')
+    }
+  `)
+  );
+
+  expectSameComponents(
+    styled.h1`
+      font-size: 1.5em;
+      text-align: center;
+    `,
+    m.Title
+  );
+
+  expectSameComponents(
+    styled.h1`
+      padding: 4em;
+      background: papayawhip;
+      font-size: ${props => props.size === 'large' ? '14px': '12px'}
+    `,
+    m.Wrapper,
+    {
+      size: 'large'
+    }
   );
 });
