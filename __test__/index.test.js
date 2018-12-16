@@ -29,14 +29,24 @@ test('rule: component should have default value of div', () => {
 });
 
 test('should transform to styled component', () => {
-  const transformedCode = sccLoader(`
+  const SccTitle = getModuleFromString(
+    sccLoader(`
     Title {
       component: h3;
-      font-size: calc((props) => props.size);
+      font-size: calc((props) => props.size + 'rem');
       color: red;
     }
-  `);
-  expect(transformedCode).toContain('styled.h3');
-  expect(transformedCode).toContain('font-size:${(props)=>props.size}');
-  expect(transformedCode).toContain('color:red;');
+  `)
+  ).Title;
+
+  expectSameComponents(
+    styled.h3`
+      font-size: ${props => props.size + 'rem'};
+      color: red;
+    `,
+    SccTitle,
+    {
+      size: 1
+    }
+  );
 });

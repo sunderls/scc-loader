@@ -30,7 +30,7 @@ module.exports = function loader(source) {
       }
     });
 
-    result.push(`${selector}: styled.${component}\`${decls.join('')}\``);
+    result.push(`${selector}: styled.${component}\`${decls.join(';')}\``);
   });
 
   return `
