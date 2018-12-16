@@ -8,13 +8,25 @@ module.exports = function loader(source) {
     const selector = rule.selector;
     const decls = [];
 
-    let component = null;
+    // component default to 'div'
+    let component = 'div';
+    const regPropsValue = /^calc\((\(props\)=>.*)\)$/;
+    // find the component
     rule.walkDecls(decl => {
-      if (decl.prop === 'component') {
-        component = decl.value;
+      const { prop, value } = decl;
+      if (prop === 'component') {
+        component = value;
       } else {
-        decls.push(`${decl.prop}:${decl.value};`);
-        decl.remove();
+        // find the props calculation
+        const match = value.replace(/\s/g, '').match(regPropsValue);
+        if (match) {
+          decls.push(`${prop}:$\{${match[1]}\}`);
+
+          // keep others the same
+        } else {
+          decls.push(`${prop}:${value};`);
+          decl.remove();
+        }
       }
     });
 

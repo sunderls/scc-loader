@@ -1,27 +1,8 @@
 import sccLoader from '../index';
-import Module from 'module';
-import * as babel from 'babel-core';
-import * as path from 'path';
 import styled from 'styled-components';
-import ReactDOMServer from 'react-dom/server';
-import React from 'react';
+import { expectSameComponents, getModuleFromString } from './util';
 
-const expectSameComponents = (A, B) => {
-  expect(A.componentStyle.rules).toEqual(B.componentStyle.rules);
-};
-
-const getModuleFromString = str => {
-  const codeES5 = babel.transform(str, {
-    presets: ['env'],
-    plugins: ['babel-plugin-styled-components']
-  }).code;
-  const m = new Module();
-  m.paths = Module._nodeModulePaths(path.dirname(''));
-  m._compile(codeES5, '');
-  return m.exports.default;
-};
-
-test('transofrm single component', () => {
+test('transform single component', () => {
   expectSameComponents(
     styled.h1`
       font-size: 1.5em;
@@ -34,6 +15,22 @@ test('transofrm single component', () => {
         component: h1;
         font-size: 1.5em;
         text-align: center;
+      }
+    `)
+    ).Title
+  );
+});
+
+test('default component should be div', () => {
+  expectSameComponents(
+    styled.div`
+      font-size: 1.5em;
+    `,
+
+    getModuleFromString(
+      sccLoader(`
+      Title {
+        font-size: 1.5em;
       }
     `)
     ).Title
