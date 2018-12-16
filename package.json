@@ -18,21 +18,25 @@
   },
   "homepage": "https://github.com/sunderls/scc-loader#readme",
   "dependencies": {
-    "postcss": "^6.0.23"
+    "postcss": "^6.0.23",
+    "react-test-renderer": "^16.6.3",
+    "require-from-string": "^2.0.2"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-jest": "^23.2.0",
-    "babel-plugin-styled-components": "^1.5.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-styled-components": "^1.9.4",
     "husky": "^0.14.3",
-    "jest": "^23.2.0",
+    "jest": "^23.6.0",
+    "jest-styled-components": "^6.3.1",
     "prettier": "^1.13.6",
     "pretty-quick": "^1.6.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "regenerator-runtime": "^0.12.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "regenerator-runtime": "^0.12.1",
     "styled-components": "^3.3.3"
   }
 }
