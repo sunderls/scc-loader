@@ -36,7 +36,7 @@ module.exports = function loader(source) {
   return `
     import styled from 'styled-components';
     export default {
-      ${result.join('')}
+      ${result.join(',')}
     }
   `;
 };
